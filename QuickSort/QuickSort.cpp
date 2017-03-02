@@ -47,7 +47,7 @@ void SortableList::CreatSqList() {
 	if(!L.elem) cout<<"MALLOC_FAILED!"<<endl;
 	L.length=0;
 	L.listsize=LIST_INIT_SIZE;
-	int i1,i2;//zong为随即生成的线性表的元素个数
+	int i1,i2;//zong为随机生成的线性表的元素个数
 	srand((unsigned)time(0));
 	/*do{
 		nu=rand()%31;
