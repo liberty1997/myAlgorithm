@@ -1,5 +1,7 @@
 #include<iostream>
 #include<cstdlib>
+#include<time.h>
+#include<unistd.h>
 #define LIST_INIT_SIZE 300
 #define INCREMENT 10
 using namespace std;
@@ -32,6 +34,7 @@ class SortableList{
 int main() {
 	SortableList A;
 	A.QuickSort();
+	usleep(300000);
 	SortableList B;
 	B.QuickSort();
 	return 0;
@@ -45,16 +48,20 @@ void SortableList::CreatSqList() {
 	L.length=0;
 	L.listsize=LIST_INIT_SIZE;
 	int i1,i2;//zong为随即生成的线性表的元素个数
-	do{
+	srand((unsigned)time(0));
+	/*do{
 		nu=rand()%31;
-	}while(nu<9);
+	}while(nu<9);*/
+	nu=(rand()%(30-20+1))+20; //生成[20,30]的随机数
+	//srand((unsigned)time(NULL));
+	usleep(500000);
 	for(i1=0;i1<nu;i1++) {
-		L.elem[i1]=rand()%500;
+		L.elem[i1]=(rand()%(500-(-500)+1))+(-500); //生成[-500,500]的随机数
 		L.length++;
 	}
 	L.elem[nu+1]=65535;
 	L.length++;
-	cout<<endl<<"A initial SqList:"<<endl;
+	cout<<endl<<"Initial SqList:"<<endl;
 	for(i2=0;i2<nu;i2++) {
 		cout<<L.elem[i2]<<" ";
 	}
@@ -95,7 +102,7 @@ void SortableList::QuickSort() {
 // Display()
 void SortableList::Display() {
 	int i3;
-	cout<<"THE Sorted SqList:"<<endl;
+	cout<<"Sorted SqList:"<<endl;
 	for(i3=0;i3<nu;i3++) {
 		cout<<L.elem[i3]<<" ";
 	}
