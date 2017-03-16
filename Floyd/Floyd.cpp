@@ -44,6 +44,7 @@ void MGraph::CreatAdjMatrix(AMGraph &G) {
 	for(int i=0;i<G.vexnum;i++) {
 		cin>>G.vexs[i];
 	}
+	// 邻接矩阵的对角线一定要置0
 	for(int i=0;i<G.vexnum;i++) {
 		for(int j=0;j<G.vexnum;j++) {
 			if(i==j) 
