@@ -115,7 +115,6 @@ void AGraph::FMultiGraph(int k) {
 	cost[N-1]=0; // cost[j] 记录结点j到汇点的最短路径长度
 	d[N-1]=-1; // d[j] 记录结点j到汇点的最短路径上结点j的下一个结点
 	for(int j=N-2;j>=0;j--) {
-		cout<<"开始寻找第"<<j1<<"条"<<endl;
 		int min=INF;
 		for(r=G.vertices[j].firstarc;r;r=r->nextarc) {
 			int v=r->adjvex;
@@ -124,7 +123,6 @@ void AGraph::FMultiGraph(int k) {
 				q=v;
 			}
 		}
-		cout<<"第"<<j1<<"条找完了!"<<endl;
 		cost[j]=min;
 		d[j]=q;
 		j1++;
