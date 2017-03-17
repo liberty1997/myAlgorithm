@@ -1,3 +1,4 @@
+// 于2017.03.17修改为舍伍德算法的快速排序___随机快速排序
 #include<iostream>
 #include<cstdlib>
 #include<time.h>
@@ -22,6 +23,7 @@ class SortableList{
 		int Partition(int left, int right);
 		void Swap(int &i, int &j);
 		void CreatSqList();
+		void InsertSort(int left, int right);
 		//int Visit();
 		void Display();
 		SortableList() {
@@ -86,17 +88,47 @@ int SortableList::Partition(int left, int right) {
 	Swap(L.elem[left],L.elem[j]);
 	return j;
 }
+
+// InsertSort
+void SortableList::InsertSort(int left, int right) {
+	int j;
+	int temp;
+	for(int i=1;i<L.length;i++) {
+		if(L.elem[i]<L.elem[i-1]) {
+			temp=L.elem[i];
+			L.elem[i]=L.elem[i-1];
+			for(j=i-1;temp<L.elem[j] && j>=0;j--) {
+				L.elem[j+1]=L.elem[j];
+			}
+			L.elem[j+1]=temp;
+		}
+	}
+}
+
 // QuickSort(int left, int right)
 void SortableList::QuickSort(int left, int right) {
+	/*
 	if(left<right) {
 		int j=Partition(left,right);
 		QuickSort(left,j-1);
 		QuickSort(j+1,right);
+	} */
+	//以上部分被重写,改成舍伍德算法___随机快速排序
+	
+	if(left<right-10) {
+		int j=rand()%(right-left+1)+left;
+		Swap(L.elem[left],L.elem[j]);
+		j=Partition(left,right);
+		QuickSort(left,j-1);
+		QuickSort(j+1,right);
 	}
+	else
+		InsertSort(left,right);
 }
 // QuickSort()
 void SortableList::QuickSort() {
 	QuickSort(0,nu-1);
+	//InsertSort(0,nu-1);
 	Display();
 }
 // Display()
