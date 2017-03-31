@@ -2,6 +2,7 @@
 // 仅考虑了局部最优性,只能保证
 // 从某个源点出发得到一棵生成树,
 // 但不一定是最小代价生成树
+// 输出结果中( , , ),权值为0的即为源点
 #include<iostream>
 #include<iomanip>
 #define MAX_VERTEX_NUM 30
@@ -110,29 +111,27 @@ void Graph::Prim(ALGraph &G, int *nearest, int *lowcost) {
 	nearest[k]=k;
 	mark[k]=true; // 将源点k加入生成树
 	for(int i=1;i<N;i++) {
-		if(i!=k1) {
-			// 每次从上次加入生成树的
-			// 结点继续寻找下一个符合要求的
-			// 生成树结点时就更新lowcost和nearest
-			for(p=G.vertices[k].firstarc;p;p=p->nextarc) {
-				int j=p->adjvex;
-				if((!mark[j])&&(p->weight<lowcost[j])) {
-					lowcost[j]=p->weight;
-					nearest[j]=k;
-				}	
-			}
-			// 从刚加入生成树的结点的
-			// 不属于生成树的邻接点中
-			// 选出一个路径最短
-			int min=INF;
-			for(int j=0;j<N;j++) {
-				if((!mark[j])&&(lowcost[j]<min)) {
-					min=lowcost[j];
-					k=j;
-				}
-			}
-			// 选完后将其加入生成树
-			mark[k]=true;
+		// 每次从上次加入生成树的
+		// 结点继续寻找下一个符合要求的
+		// 生成树结点时就更新lowcost和nearest
+		for(p=G.vertices[k].firstarc;p;p=p->nextarc) {
+			int j=p->adjvex;
+			if((!mark[j])&&(p->weight<lowcost[j])) {
+				lowcost[j]=p->weight;
+				nearest[j]=k;
+			}	
 		}
+		// 从刚加入生成树的结点的
+		// 不属于生成树的邻接点中
+		// 选出一个路径最短
+		int min=INF;
+		for(int j=0;j<N;j++) {
+			if((!mark[j])&&(lowcost[j]<min)) {
+				min=lowcost[j];
+				k=j;
+			}
+		}
+		// 选完后将其加入生成树
+		mark[k]=true;
 	}
 }
