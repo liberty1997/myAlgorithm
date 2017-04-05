@@ -1,11 +1,32 @@
+// modified at 04/05/2017
+// 运用了vector和sort
+// 将冒泡排序改成了sort
+// 注意对sort的自定义
+#include<stdio.h>
+#include<vector>
+#include<algorithm>
 #include<iostream>
 
 template<class T>
-struct Pack{
+struct Pack {
 	T w1,p1;
 	double pw;
-	int index;
 };
+
+// 利用sort依据结构体里的某个元素进行排序时
+// 有两种对sort重写的方法
+// 1.重载operator<
+// 2.自定义cmp函数
+
+template<class T>
+bool operator<(const Pack<T> &a1, const Pack<T> &a2) { return a1.pw>a2.pw; }
+
+// 用cmp时,sort函数是sort(pack.begin(),pack.end(),cmp);
+// cmp这个,一加上模板参数就不行了
+/*template<class T>
+bool cmp(struct Pack<T> a, struct Pack<T> b) {
+	return a.pw>b.pw; // 大于还是小于取决于需求
+}  */
 
 using namespace std;
 
@@ -41,38 +62,25 @@ void Knapsack<T>::Init() {
 	cin>>n;
 	cout<<"输入背包重量:(110)"<<endl;
 	cin>>m;
-	struct Pack<T> *pack;
-	pack=new Pack<T>[n];
+	T q,r;
+	double e;
+	vector<struct Pack<T> > pack(n);
 	cout<<"输入物品的w和p:"<<endl;
 	cout<<"Example:1 11, 11 21, 21 31, 23 33, 33 43, 43 53,"<<endl;
 	cout<<"        45 55, 55 65"<<endl;
 	for(int i=0;i<n;i++) {
 		cin>>pack[i].w1;
 		cin>>pack[i].p1;
-		pack[i].pw=(double)(pack[i].p1/pack[i].w1);
-		pack[i].index=i;
+		pack[i].pw=(pack[i].p1/pack[i].w1);
 	}
-	// 按单位重量排序,但是不交换结构体里的值,只交换index
-	for(int i=0;i<n-1;i++) {
-		if(pack[i].pw<pack[i+1].pw) {
-			for(int i=0;i<n;i++) {
-				for(int j=i+1;j<n;j++) {
-					if(pack[i].pw<pack[j].pw) {
-						swap(pack[i].index,pack[j].index);
-					}
-				}
-			}
-			break;
-		}
-	}
+	// 按单位重量排序
+	sort(pack.begin(), pack.end());
 	w=new T[n];
 	p=new T[n];
 	x=new int[n];
 	for(int i=0;i<n;i++) {
-		int in;
-		in=pack[i].index;
-		w[i]=pack[in].w1;
-		p[i]=pack[in].p1;
+		w[i]=pack[i].w1;
+		p[i]=pack[i].p1;
 	}
 
 }
