@@ -1,7 +1,8 @@
-// modified at 04/05/2017
+// modified on 04/06/2017
 // 运用了vector和sort
 // 将冒泡排序改成了sort
-// 注意对sort的自定义
+// 使用了sort的三种方法,其中方法二不能用---当结构体用到模板参数时
+// 使用了auto且传引用 (auto &a:s)
 #include<stdio.h>
 #include<vector>
 #include<algorithm>
@@ -18,9 +19,11 @@ struct Pack {
 // 1.重载operator<
 // 2.自定义cmp函数
 
+// sort方法一
 template<class T>
 bool operator<(const Pack<T> &a1, const Pack<T> &a2) { return a1.pw>a2.pw; }
 
+// sort方法二
 // 用cmp时,sort函数是sort(pack.begin(),pack.end(),cmp);
 // cmp这个,一加上模板参数就不行了
 /*template<class T>
@@ -68,12 +71,19 @@ void Knapsack<T>::Init() {
 	cout<<"输入物品的w和p:"<<endl;
 	cout<<"Example:1 11, 11 21, 21 31, 23 33, 33 43, 43 53,"<<endl;
 	cout<<"        45 55, 55 65"<<endl;
-	for(int i=0;i<n;i++) {
-		cin>>pack[i].w1;
-		cin>>pack[i].p1;
-		pack[i].pw=(pack[i].p1/pack[i].w1);
+	for(auto &i:pack) {
+		cin>>i.w1;
+		cin>>i.p1;
+		i.pw=(i.p1/i.w1);
 	}
 	// 按单位重量排序
+	// 以下注释是sort方法三
+/*	struct {
+		bool operator() (struct Pack<T> a1, struct Pack<T> a2) {
+			return a1.pw>a2.pw;
+		}
+	}cmp;
+	sort(pack.begin(), pack.end(),cmp); */
 	sort(pack.begin(), pack.end());
 	w=new T[n];
 	p=new T[n];
